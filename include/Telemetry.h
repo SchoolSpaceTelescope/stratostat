@@ -1,4 +1,6 @@
-#include <stdint.h>
+#include <Arduino.h>
+
+
 
 struct Telemetry{
   //GPS
@@ -12,7 +14,7 @@ struct Telemetry{
   bool validFix;
   // GPS
 
-  float pressure, temperatureBar, altitudeBar, atitudeBarCorrected; // barometer
+  float pressure, temperatureBar, altitudeBar, altitudeBarCorrected; // barometer
 
    float vBAT ,v5, v3v3; // voltages
 };
