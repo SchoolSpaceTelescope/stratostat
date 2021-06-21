@@ -49,9 +49,8 @@ void barometer_setup() {
 }
 
 void barometer_get(struct Telemetry *telemetry) {
-	float pressure = 0;
-	float temperature = 0;
-	float altitude = 0;
+    double pressure = 0;
+	double temperature = 0;
 	
 	if (!barometerConnected) {
 		if (millis() - prevConnectionAttempt >= connectionAttemptDelay) {
@@ -76,14 +75,13 @@ void barometer_get(struct Telemetry *telemetry) {
 			pressure = barometer.GetPres(); // Returns pressure in selected units
 			
 			// New temperature and/or pressure values exist
-			if ((temperature != prevTemperature) || (pressure != prevPressure)) {				
+			if ((temperature != prevTemperature) || (pressure != prevPressure)) {
 				// If Sea Level Pressure has not been calculated, do so now.
 				if (seaLevelPressure == 0) seaLevelPressure = barometer.getSeaLevel(217.3);
 				
-        telemetry->pressure = pressure * 25.4;
-        telemetry->temperatureBar= temperature;
+                telemetry->pressure = pressure * 25.4;
+                telemetry->temperatureBar= temperature;
 
-        
 				telemetry->altitudeBar = barometer.getAltitude();
 				
 				// Calculate current altitude performing temperature corrections
@@ -94,4 +92,9 @@ void barometer_get(struct Telemetry *telemetry) {
 			}
 		}
 	}
+}
+
+
+void barometer_print(struct Telemetry *telemetry){
+    Serial.print("");
 }

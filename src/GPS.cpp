@@ -14,21 +14,13 @@ void gps_get(struct Telemetry *telemetry){
     telemetry->validFix = nmea.isValid();
     telemetry->sat_count = nmea.getNumSatellites();
     
-    telemetry->latitude = (float) nmea.getLatitude() / 1000000.;
-    telemetry->longitude = (float) nmea.getLongitude() / 1000000.;
+    telemetry->latitude = nmea.getLatitude();
+    telemetry->longitude = nmea.getLongitude();
 
-    telemetry->speed = nmea.getSpeed() / 1000.;
+    telemetry->speed = nmea.getSpeed();
 
-    long alt;
-
-		if (nmea.getAltitude(alt))
-      telemetry->altitude = alt / 1000.;
-		else
-			telemetry->altitude = 0;
-
-
-
-    
+    if (!nmea.getAltitude(telemetry->altitude))
+        telemetry->altitude = -1;
 
     telemetry->second = nmea.getSecond();
     telemetry->minute = nmea.getMinute();
@@ -38,66 +30,68 @@ void gps_get(struct Telemetry *telemetry){
 
     telemetry->year = nmea.getYear();
 
-		// Output GPS information from previous second
-		console.print("Valid fix: ");
-		console.println(nmea.isValid() ? "yes" : "no");
-
-		console.print("Nav. system: ");
-		if (nmea.getNavSystem())
-			console.println(nmea.getNavSystem());
-		else
-			console.println("none");
-
-		console.print("Num. satellites: ");
-		console.println(nmea.getNumSatellites());
-
-		console.print("HDOP: ");
-		console.println(nmea.getHDOP()/10., 1);
-
-		console.print("Date/time: ");
-		console.print(nmea.getYear());
-		console.print('-');
-		console.print(int(nmea.getMonth()));
-		console.print('-');
-		console.print(int(nmea.getDay()));
-		console.print('T');
-		console.print(int(nmea.getHour()));
-		console.print(':');
-		console.print(int(nmea.getMinute()));
-		console.print(':');
-		console.println(int(nmea.getSecond()));
-
-		long latitude_mdeg = nmea.getLatitude();
-		long longitude_mdeg = nmea.getLongitude();
-		console.print("Latitude (deg): ");
-		console.println(latitude_mdeg / 1000000., 6);
-
-		console.print("Longitude (deg): ");
-		console.println(longitude_mdeg / 1000000., 6);
-
-		// long alt;
-		console.print("Altitude (m): ");
-		if (nmea.getAltitude(alt))
-			console.println(alt / 1000., 3);
-		else
-			console.println("not available");
-
-		console.print("Speed: ");
-		console.println(nmea.getSpeed() / 1000., 3);
-		console.print("Course: ");
-		console.println(nmea.getCourse() / 1000., 3);
+    telemetry->hdop = nmea.getHDOP();
   }
 }
 
 
-void printUnknownSentence(MicroNMEA& nmea){
+void print_gps_data(struct Telemetry *telemetry){
+    // Output GPS information from previous second
+    console.print("Valid fix: ");
+    console.println(telemetry->validFix ? "yes" : "no");
+
+//    console.print("Nav. system: ");
+//    if (nmea.getNavSystem())
+//        console.println(nmea.getNavSystem());
+//    else
+//        console.println("none");
+
+    console.print("Num. satellites: ");
+    console.println(telemetry->sat_count);
+
+    console.print("HDOP: ");
+    console.println(telemetry->hdop/10., 1);
+
+    console.print("Date/time: ");
+    console.print(telemetry->year);
+    console.print('-');
+    console.print(int(telemetry->month));
+    console.print('-');
+    console.print(int(telemetry->day));
+    console.print('T');
+    console.print(int(telemetry->hour));
+    console.print(':');
+    console.print(int(telemetry->minute));
+    console.print(':');
+    console.println(int(telemetry->second));
+
+    console.print("Latitude (deg): ");
+    console.println((double) telemetry->latitude / 1000000., 6);
+
+    console.print("Longitude (deg): ");
+    console.println((double) telemetry->longitude / 1000000., 6);
+
+    // long alt;
+    console.print("Altitude (m): ");
+//    if (nmea.getAltitude(alt))
+        console.println((double) telemetry->altitude / 1000., 3);
+//    else
+//        console.println("not available");
+
+    console.print("Speed: ");
+    console.println((double) telemetry->speed/ 1000., 3);
+//    console.print("Course: ");
+//    console.println(telemetry->course / 1000., 3);
+}
+
+void printUnknownSentence(MicroNMEA& nmeaUnknown){
 	console.println();
 	console.print("Unknown sentence: ");
-	console.println(nmea.getSentence());
+	console.println(nmeaUnknown.getSentence());
 }
 
 
-void gps_setup(void){
+void gps_setup(){
 	gps.begin(9600); // gps
 
 	nmea.setUnknownSentenceHandler(printUnknownSentence);

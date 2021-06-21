@@ -1,20 +1,19 @@
 #include <Arduino.h>
 
-
-
 struct Telemetry{
   //GPS
-  int8_t latitude, longitude;
-  int8_t sat_count;
-  float speed, altitude;
+  long latitude, longitude;
+  uint8_t sat_count;
+  long speed, altitude;
+  uint8_t hdop;
 
-  int8_t second, minute, hour, day, month;
+  uint8_t second, minute, hour, day, month;
   uint16_t year;
 
   bool validFix;
   // GPS
 
-  float pressure, temperatureBar, altitudeBar, altitudeBarCorrected; // barometer
+  double pressure, temperatureBar, altitudeBar, altitudeBarCorrected; // barometer
 
-   float vBAT ,v5, v3v3; // voltages
+    double vBAT ,v5, v3v3; // voltages
 };
