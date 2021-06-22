@@ -15,3 +15,10 @@ void voltage_get(struct Telemetry *telemetry){
 //void voltage_setup(){
 //
 //}
+
+void print_voltage(struct Telemetry *telemetry){
+    Serial.print("VBAT: "); Serial.println(telemetry->vBAT);
+    Serial.print("3V3: "); Serial.println(telemetry->v3v3);
+    Serial.print("5V: "); Serial.println(telemetry->v5);
+//    Serial.print("Current: "); Serial.println(telemetry->current);
+}

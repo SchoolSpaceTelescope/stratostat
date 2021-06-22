@@ -80,7 +80,7 @@ void barometer_get(struct Telemetry *telemetry) {
 				if (seaLevelPressure == 0) seaLevelPressure = barometer.getSeaLevel(217.3);
 				
                 telemetry->pressure = pressure * 25.4;
-                telemetry->temperatureBar= temperature;
+                telemetry->temperatureBar = temperature;
 
 				telemetry->altitudeBar = barometer.getAltitude();
 				
@@ -94,7 +94,8 @@ void barometer_get(struct Telemetry *telemetry) {
 	}
 }
 
-
-void barometer_print(struct Telemetry *telemetry){
-    Serial.print("");
+void print_barometer_data(struct Telemetry *telemetry){
+    Serial.print("Pressure: ");  Serial.println(telemetry->pressure);
+    Serial.print("Temperature barometer: ");  Serial.println(telemetry->temperatureBar);
+    Serial.print("Temperature barometer: ");  Serial.println(telemetry->temperatureBar);
 }
