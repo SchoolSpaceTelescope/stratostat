@@ -35,13 +35,13 @@ void barometer_setup() {
 	*/
 	barometer.setDelay(1000); 
   
-      barometer.setPressHg();
-  
-      // Temperature and Pressure offsets will always be in degrees Celcius and Pascals regardless of what temperature and pressure units are selected
-      // This is intentional based on the way temperature and pressure calculations are performed.
-      barometer.setTOffset(-200); // Decreases temperature reading by 2.00°C
-      barometer.setPOffset(5); // Increases pressure reading by 5 Pascals
-  
+    barometer.setPressHg();
+
+    // Temperature and Pressure offsets will always be in degrees Celcius and Pascals regardless of what temperature and pressure units are selected
+    // This is intentional based on the way temperature and pressure calculations are performed.
+    barometer.setTOffset(-200); // Decreases temperature reading by 2.00°C
+    barometer.setPOffset(5); // Increases pressure reading by 5 Pascals
+
   
     if(barometer.connect()>0) { // barometer.connect starts wire and attempts to connect to sensor
         barometerConnected = true;

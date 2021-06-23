@@ -29,17 +29,10 @@ void displaySensorDetails()
 void magnetometer_setup(){
     Serial.println("HMC5883 Magnetometer Test"); Serial.println("");
 
-    /* Initialise the sensor */
-    if(!mag.begin())
-    {
-        /* There was a problem detecting the HMC5883 ... check your connections */
-        Serial.println("Ooops, no HMC5883 detected ... Check your wiring!");
-        while(1);
-    }
+    mag.begin();
 
     /* Display some basic information on this sensor */
     displaySensorDetails();
-    delay(5000);
 }
 
 void magnetometer_get(struct Telemetry *telemetry){

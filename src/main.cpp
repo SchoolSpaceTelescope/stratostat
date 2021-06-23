@@ -51,11 +51,8 @@ void setup() {
 
 
     barometer_setup();
-    current_setup();
-
     heat_setup();
     magnetometer_setup();
-
 
     gps_setup();
     digitalWrite(32, LOW);  // INIT END
@@ -68,9 +65,6 @@ void loop() {
 
     barometer_get(&telemetry);  // ok
     print_barometer_data(&telemetry);
-
-    current_get(&telemetry);
-    print_current_data(&telemetry);
 
     gps_get(&telemetry);
     print_gps_data(&telemetry);

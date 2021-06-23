@@ -4,7 +4,6 @@
 #include "Telemetry.h"
 #include "Heat.h"
 
-
 // Data wire is plugged into port 2 on the Arduino
 #define ONE_WIRE_BUS 10
 
@@ -17,24 +16,6 @@ DallasTemperature sensors(&oneWire);
 // arrays to hold device addresses
 DeviceAddress insideThermometer; //, outsideThermometer;
 
-
-// function that will be called when an alarm condition exists during DallasTemperatures::processAlarms();
-void newAlarmHandler(const uint8_t* deviceAddress)
-{
-    Serial.println("Alarm Handler Start");
-    printAlarmInfo(deviceAddress);
-    printTemp(deviceAddress);
-    Serial.println();
-    Serial.println("Alarm Handler Finish");
-}
-
-void printCurrentTemp(DeviceAddress deviceAddress)
-{
-    printAddress(deviceAddress);
-    printTemp(deviceAddress);
-    Serial.println();
-}
-
 void printAddress(const DeviceAddress deviceAddress)
 {
     Serial.print("Address: ");
@@ -43,18 +24,6 @@ void printAddress(const DeviceAddress deviceAddress)
         if (deviceAddress[i] < 16) Serial.print("0");
         Serial.print(deviceAddress[i], HEX);
     }
-    Serial.print(" ");
-}
-
-void printTemp(const DeviceAddress deviceAddress)
-{
-    float tempC = sensors.getTempC(deviceAddress);
-    if (tempC != DEVICE_DISCONNECTED_C)
-    {
-        Serial.print("Current Temp C: ");
-        Serial.print(tempC);
-    }
-    else Serial.print("DEVICE DISCONNECTED");
     Serial.print(" ");
 }
 
@@ -74,9 +43,6 @@ void printAlarmInfo(const DeviceAddress deviceAddress)
 }
 
 void heat_setup(){
-
-    Serial.println("Dallas Temperature IC Control Library Demo");
-
     // Start up the library
     sensors.begin();
 
@@ -87,62 +53,44 @@ void heat_setup(){
 
     // search for devices on the bus and assign based on an index
     if (!sensors.getAddress(insideThermometer, 0)) Serial.println("Unable to find address for Device 0");
-//    if (!sensors.getAddress(outsideThermometer, 1)) Serial.println("Unable to find address for Device 1");
 
     Serial.print("Device insideThermometer ");
     printAlarmInfo(insideThermometer);
     Serial.println();
-//
-//    Serial.print("Device outsideThermometer ");
-//    printAlarmInfo(outsideThermometer);
-//    Serial.println();
 
     // set alarm ranges
     Serial.println("Setting alarm temps...");
     sensors.setHighAlarmTemp(insideThermometer, 127);
     sensors.setLowAlarmTemp(insideThermometer, 15);
-//    sensors.setHighAlarmTemp(outsideThermometer, 25);
-//    sensors.setLowAlarmTemp(outsideThermometer, 15);
 
     Serial.print("New insideThermometer ");
     printAlarmInfo(insideThermometer);
     Serial.println();
-
-//    Serial.print("New outsideThermometer ");
-//    printAlarmInfo(outsideThermometer);
-//    Serial.println();
-
-    // attach alarm handler
-    sensors.setAlarmHandler(&newAlarmHandler);
 }
 
 void temperature_check(struct Telemetry *telemetry){
-    // ask the devices to measure the temperature
     sensors.requestTemperatures();
 
-    // if an alarm condition exists as a result of the most recent
-    // requestTemperatures() request, it exists until the next time
-    // requestTemperatures() is called AND there isn't an alarm condition
-    // on the device
+    float tempC = sensors.getTempC(insideThermometer);
+    telemetry->batteryTemp = tempC;
+
     if (sensors.hasAlarm())
     {
-        telemetry->batteryHeat = true;
-        digitalWrite(11, HIGH);
-    }
+        if (tempC != DEVICE_DISCONNECTED_C && tempC < 15) {
+            telemetry->batteryHeat = true;
+        }
 
-    // call alarm handler function defined by sensors.setAlarmHandler
-    // for each device reporting an alarm
-    sensors.processAlarms();
+        Serial.print("Temperature alarm: ");
 
-    if (!sensors.hasAlarm())
-    {
+        Serial.println(tempC);
+    } else {
         telemetry->batteryHeat = false;
-        digitalWrite(11, LOW);
     }
 
-    delay(1000);
+    digitalWrite(11, telemetry->batteryHeat);
 }
 
 void print_heat_data(struct Telemetry *telemetry){
-
+    Serial.print("Temperature: "); Serial.println(telemetry->batteryTemp);
+    Serial.print("IsHeat: "); Serial.println(telemetry->batteryHeat);
 }
