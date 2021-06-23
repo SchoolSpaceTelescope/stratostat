@@ -15,7 +15,7 @@ OneWire oneWire(ONE_WIRE_BUS);
 DallasTemperature sensors(&oneWire);
 
 // arrays to hold device addresses
-DeviceAddress insideThermometer, outsideThermometer;
+DeviceAddress insideThermometer; //, outsideThermometer;
 
 
 // function that will be called when an alarm condition exists during DallasTemperatures::processAlarms();
@@ -87,30 +87,30 @@ void heat_setup(){
 
     // search for devices on the bus and assign based on an index
     if (!sensors.getAddress(insideThermometer, 0)) Serial.println("Unable to find address for Device 0");
-    if (!sensors.getAddress(outsideThermometer, 1)) Serial.println("Unable to find address for Device 1");
+//    if (!sensors.getAddress(outsideThermometer, 1)) Serial.println("Unable to find address for Device 1");
 
     Serial.print("Device insideThermometer ");
     printAlarmInfo(insideThermometer);
     Serial.println();
-
-    Serial.print("Device outsideThermometer ");
-    printAlarmInfo(outsideThermometer);
-    Serial.println();
+//
+//    Serial.print("Device outsideThermometer ");
+//    printAlarmInfo(outsideThermometer);
+//    Serial.println();
 
     // set alarm ranges
     Serial.println("Setting alarm temps...");
-    sensors.setHighAlarmTemp(insideThermometer, 40);
+    sensors.setHighAlarmTemp(insideThermometer, 127);
     sensors.setLowAlarmTemp(insideThermometer, 15);
-    sensors.setHighAlarmTemp(outsideThermometer, 25);
-    sensors.setLowAlarmTemp(outsideThermometer, 21);
+//    sensors.setHighAlarmTemp(outsideThermometer, 25);
+//    sensors.setLowAlarmTemp(outsideThermometer, 15);
 
     Serial.print("New insideThermometer ");
     printAlarmInfo(insideThermometer);
     Serial.println();
 
-    Serial.print("New outsideThermometer ");
-    printAlarmInfo(outsideThermometer);
-    Serial.println();
+//    Serial.print("New outsideThermometer ");
+//    printAlarmInfo(outsideThermometer);
+//    Serial.println();
 
     // attach alarm handler
     sensors.setAlarmHandler(&newAlarmHandler);
@@ -126,7 +126,8 @@ void temperature_check(struct Telemetry *telemetry){
     // on the device
     if (sensors.hasAlarm())
     {
-        Serial.println("Oh noes!  There is at least one alarm on the bus.");
+        telemetry->batteryHeat = true;
+        digitalWrite(11, HIGH);
     }
 
     // call alarm handler function defined by sensors.setAlarmHandler
@@ -135,9 +136,8 @@ void temperature_check(struct Telemetry *telemetry){
 
     if (!sensors.hasAlarm())
     {
-        // just print out the current temperature
-        printCurrentTemp(insideThermometer);
-        printCurrentTemp(outsideThermometer);
+        telemetry->batteryHeat = false;
+        digitalWrite(11, LOW);
     }
 
     delay(1000);

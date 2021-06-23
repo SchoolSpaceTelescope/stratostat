@@ -49,21 +49,24 @@ void setup() {
     Serial2.begin(9600);
     delay(5000);
 
-    accelerometer_setup();
+
     barometer_setup();
     current_setup();
-    gps_setup();
+
     heat_setup();
     magnetometer_setup();
 
+
+    gps_setup();
     digitalWrite(32, LOW);  // INIT END
 }
 
 void loop() {
-    accelerometer_get(&telemetry);
+    digitalWrite(34, HIGH);  // init started
+    accelerometer_get(&telemetry);  // ok
     print_accelerometer_data(&telemetry);
 
-    barometer_get(&telemetry);
+    barometer_get(&telemetry);  // ok
     print_barometer_data(&telemetry);
 
     current_get(&telemetry);
@@ -75,17 +78,17 @@ void loop() {
     temperature_check(&telemetry);
     print_heat_data(&telemetry);
 
-    magnetometer_get(&telemetry);
+    magnetometer_get(&telemetry);  // ok
     print_magnetometer_data(&telemetry);
 
-    temperature_get(&telemetry);
-    print_temperature_data(&telemetry);
-
-    voltage_get(&telemetry);
+    voltage_get(&telemetry);  // ok
     print_voltage(&telemetry);
 
 
     telemetry.crc = crc8_bytes((byte *) &telemetry, sizeof(telemetry) - 1);
 
     Serial1.write((byte *) &telemetry, sizeof(telemetry));
+
+    digitalWrite(34, LOW);
+    delay(1000);
 }

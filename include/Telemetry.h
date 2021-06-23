@@ -2,15 +2,16 @@
 
 struct Telemetry{
     //GPS
-    long latitude, longitude;
-    uint8_t sat_count;
-    long speed, altitude;
-    uint8_t hdop;
+    int8_t gps_state;
+    float latitude, longitude;
+    int8_t sat_count;
+    float speed, altitude;
+//    uint8_t hdop;
 
     uint8_t second, minute, hour, day, month;
     uint16_t year;
 
-    bool validFix;
+//    bool validFix;
     // GPS
 
     double pressure, temperatureBar, altitudeBar, altitudeBarCorrected; // barometer

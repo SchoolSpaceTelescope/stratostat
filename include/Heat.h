@@ -1,3 +1,5 @@
+#include <DallasTemperature.h>
+
 void heat_setup();
 
 void temperature_check(struct Telemetry *telemetry);
