@@ -56,6 +56,15 @@ void setup() {
 
     gps_setup();
     digitalWrite(32, LOW);  // INIT END
+
+    head_accelerometer_data();
+    head_barometer_data();
+    head_gps_data();
+    head_heat_data();
+    head_magnetometer_data();
+    head_voltage();
+
+    Serial.println();
 }
 
 void loop() {
@@ -78,6 +87,7 @@ void loop() {
     voltage_get(&telemetry);  // ok
     print_voltage(&telemetry);
 
+    Serial.println();
 
     telemetry.crc = crc8_bytes((byte *) &telemetry, sizeof(telemetry) - 1);
 

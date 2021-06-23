@@ -79,10 +79,6 @@ void temperature_check(struct Telemetry *telemetry){
         if (tempC != DEVICE_DISCONNECTED_C && tempC < 15) {
             telemetry->batteryHeat = true;
         }
-
-        Serial.print("Temperature alarm: ");
-
-        Serial.println(tempC);
     } else {
         telemetry->batteryHeat = false;
     }
@@ -90,7 +86,14 @@ void temperature_check(struct Telemetry *telemetry){
     digitalWrite(11, telemetry->batteryHeat);
 }
 
+void head_heat_data(){
+    Serial.print("Battery Temp,");
+    Serial.print("IsHeat,");
+}
+
 void print_heat_data(struct Telemetry *telemetry){
-    Serial.print("Temperature: "); Serial.println(telemetry->batteryTemp);
-    Serial.print("IsHeat: "); Serial.println(telemetry->batteryHeat);
+    Serial.print(telemetry->batteryTemp);
+    Serial.print(",");
+    Serial.print(telemetry->batteryHeat);
+    Serial.print(",");
 }

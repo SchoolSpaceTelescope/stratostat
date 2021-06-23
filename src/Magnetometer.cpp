@@ -67,17 +67,23 @@ void magnetometer_get(struct Telemetry *telemetry){
     float headingDegrees = heading * 180/M_PI;
 
     telemetry->headingDegrees = headingDegrees;
-
-    delay(500);
 }
 
+void head_magnetometer_data(){
+    Serial.print("MagX,");
+    Serial.print("MagY,");
+    Serial.print("MagZ,");
+    Serial.print("Heading,");
+}
 
 void print_magnetometer_data(struct Telemetry *telemetry){
-    /* Display the results (magnetic vector values are in micro-Tesla (uT)) */
-    Serial.print("X: "); Serial.print(telemetry->magX); Serial.print("  ");
-    Serial.print("Y: "); Serial.print(telemetry->magY); Serial.print("  ");
-    Serial.print("Z: "); Serial.print(telemetry->magZ); Serial.print("  ");Serial.println("uT");
-
-    Serial.print("Heading (degrees): "); Serial.println(telemetry->headingDegrees);
+    Serial.print(telemetry->magX);
+    Serial.print(",");
+    Serial.print(telemetry->magY);
+    Serial.print(",");
+    Serial.print(telemetry->magZ);
+    Serial.print(",");
+    Serial.print(telemetry->headingDegrees);
+    Serial.print(",");
 }
 

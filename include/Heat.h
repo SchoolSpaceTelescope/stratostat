@@ -4,6 +4,7 @@ void heat_setup();
 
 void temperature_check(struct Telemetry *telemetry);
 
+void head_heat_data();
 void print_heat_data(struct Telemetry *telemetry);
 
 

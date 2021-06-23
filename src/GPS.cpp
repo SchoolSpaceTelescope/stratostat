@@ -40,47 +40,64 @@ void gps_get(struct Telemetry *telemetry)
     }
 }
 
-void print_gps_data(struct Telemetry *telemetry){
-    console.print("GPS state: ");
+void head_gps_data(){
+    console.print("GPS state,");
+    console.print("Satellite count,");
+    console.print("Year,");
+    console.print("Month,");
+    console.print("Day,");
+    console.print("Hour,");
+    console.print("Minute,");
+    console.print("Second,");
+    console.print("Latitude,");
+    console.print("Longitude,");
+    console.print("Altitude,");
+    console.print("Speed,");
+}
 
+void print_gps_data(struct Telemetry *telemetry){
     switch (telemetry->gps_state) {
         case GPS_OK:
-            Serial.println("GPS_OK");
+            Serial.println("GPS_OK,");
             break;
         case GPS_ERROR_DATA:
-            Serial.println("GPS_ERROR_DATA");
+            Serial.println("GPS_ERROR_DATA,");
             break;
         case GPS_ERROR_SAT:
-            Serial.println("GPS_ERROR_SAT");
+            Serial.println("GPS_ERROR_SAT,");
             break;
     }
 
-    console.print("Num. satellites: ");
     console.println(telemetry->sat_count);
+    console.print(",");
 
-    console.print("Date/time: ");
     console.print(telemetry->year);
-    console.print('-');
+    console.print(",");
     console.print(int(telemetry->month));
-    console.print('-');
+    console.print(",");
     console.print(int(telemetry->day));
-    console.print('T');
+    console.print(",");
     console.print(int(telemetry->hour));
-    console.print(':');
+    console.print(",");
     console.print(int(telemetry->minute));
-    console.print(':');
+    console.print(",");
     console.println(int(telemetry->second));
+    console.print(",");
 
-    console.print("Latitude: ");
+//    console.print("Latitude: ");
     console.println(telemetry->latitude, 6);
+    console.print(",");
 
-    console.print("Longitude: ");
+//    console.print("Longitude: ");
     console.println(telemetry->longitude, 6);
+    console.print(",");
 
 
-    console.print("Altitude (m): ");
+//    console.print("Altitude (m): ");
     console.println(telemetry->altitude, 3);
+    console.print(",");
 
-    console.print("Speed: ");
+//    console.print("Speed: ");
     console.println(telemetry->speed, 3);
+    console.print(",");
 }

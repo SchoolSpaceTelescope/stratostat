@@ -53,29 +53,68 @@ void accelerometer_get(struct Telemetry *telemetry){
     telemetry->angleZ = mpu6050.getAngleZ();
 }
 
+void head_accelerometer_data(){
+    Serial.print("Accelerometer Temp,");
+
+    Serial.print("AccelX,");
+    Serial.print("AccelY,");
+    Serial.print("AccelZ,");
+
+    Serial.print("GyroX,");
+    Serial.print("GyroY,");
+    Serial.print("GyroZ,");
+
+    Serial.print("AccelAngleX,");
+    Serial.print("AccelAngleY,");
+
+    Serial.print("GyroAngleX,");
+    Serial.print("GyroAngleY,");
+    Serial.print("GyroAngleZ,");
+
+    Serial.print("AngleX,");
+    Serial.print("AngleY,");
+    Serial.print("AngleZ,");
+}
+
 void print_accelerometer_data(struct Telemetry *telemetry){
-    if(millis() - timer > 1000){
-        Serial.println("=======================================================");
-        Serial.print("temp : ");Serial.println(telemetry->gyroTemp);
-        Serial.print("accX : ");Serial.print(telemetry->accAngleX);
-        Serial.print("\taccY : ");Serial.print(telemetry->accY);
-        Serial.print("\taccZ : ");Serial.println(telemetry->accZ);
+//        Serial.println("=======================================================");
+//        Serial.print("temp : ");
+    Serial.print(telemetry->gyroTemp);
+    Serial.print(",");
+    Serial.print(telemetry->accX);
+    Serial.print(",");
+    Serial.print(telemetry->accY);
+    Serial.print(",");
+    Serial.print(telemetry->accZ);
+    Serial.print(",");
 
-        Serial.print("gyroX : ");Serial.print(telemetry->gyroX);
-        Serial.print("\tgyroY : ");Serial.print(telemetry->gyroY);
-        Serial.print("\tgyroZ : ");Serial.println(telemetry->gyroZ);
+//    Serial.print("gyroX : ");
+    Serial.print(telemetry->gyroX);
+    Serial.print(",");
+    Serial.print(telemetry->gyroY);
+    Serial.print(",");
+    Serial.print(telemetry->gyroZ);
+    Serial.print(",");
 
-        Serial.print("accAngleX : ");Serial.print(telemetry->accAngleX);
-        Serial.print("\taccAngleY : ");Serial.println(telemetry->accAngleY);
+//    Serial.print("accAngleX : ");
+    Serial.print(telemetry->accAngleX);
+    Serial.print(",");
+    Serial.print(telemetry->accAngleY);
+    Serial.print(",");
 
-        Serial.print("gyroAngleX : ");Serial.print(telemetry->gyroAngleX);
-        Serial.print("\tgyroAngleY : ");Serial.print(telemetry->gyroAngleY);
-        Serial.print("\tgyroAngleZ : ");Serial.println(telemetry->gyroAngleZ);
+//    Serial.print("gyroAngleX : ");
+    Serial.print(telemetry->gyroAngleX);
+    Serial.print(",");
+    Serial.print(telemetry->gyroAngleY);
+    Serial.print(",");
+    Serial.println(telemetry->gyroAngleZ);
+    Serial.print(",");
 
-        Serial.print("angleX : ");Serial.print(telemetry->angleX);
-        Serial.print("\tangleY : ");Serial.print(telemetry->angleY);
-        Serial.print("\tangleZ : ");Serial.println(telemetry->angleZ);
-        Serial.println("=======================================================\n");
-        timer = millis();
-    }
+//    Serial.print("angleX : ");
+    Serial.print(telemetry->angleX);
+    Serial.print(",");
+    Serial.print(telemetry->angleY);
+    Serial.print(",");
+    Serial.println(telemetry->angleZ);
+    Serial.print(",");
 }

@@ -94,8 +94,14 @@ void barometer_get(struct Telemetry *telemetry) {
 	}
 }
 
+void head_barometer_data(){
+    Serial.print("Barometer Temp,");
+    Serial.print("Pressure,");
+}
+
 void print_barometer_data(struct Telemetry *telemetry){
-    Serial.print("Pressure: ");  Serial.println(telemetry->pressure);
-    Serial.print("Temperature barometer: ");  Serial.println(telemetry->temperatureBar);
-    Serial.print("Temperature barometer: ");  Serial.println(telemetry->temperatureBar);
+    Serial.print(telemetry->temperatureBar);
+    Serial.print(",");
+    Serial.print(telemetry->pressure);
+    Serial.print(",");
 }
