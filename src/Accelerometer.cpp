@@ -107,7 +107,7 @@ void print_accelerometer_data(struct Telemetry *telemetry){
     Serial.print(",");
     Serial.print(telemetry->gyroAngleY);
     Serial.print(",");
-    Serial.println(telemetry->gyroAngleZ);
+    Serial.print(telemetry->gyroAngleZ);
     Serial.print(",");
 
 //    Serial.print("angleX : ");
@@ -115,6 +115,6 @@ void print_accelerometer_data(struct Telemetry *telemetry){
     Serial.print(",");
     Serial.print(telemetry->angleY);
     Serial.print(",");
-    Serial.println(telemetry->angleZ);
+    Serial.print(telemetry->angleZ);
     Serial.print(",");
 }

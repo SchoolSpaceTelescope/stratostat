@@ -19,11 +19,11 @@ void head_voltage(){
 }
 
 void print_voltage(struct Telemetry *telemetry){
-    Serial.println(telemetry->vBAT);
+    Serial.print(telemetry->vBAT);
     Serial.print(",");
-    Serial.println(telemetry->v3v3);
+    Serial.print(telemetry->v3v3);
     Serial.print(",");
-    Serial.println(telemetry->v5);
+    Serial.print(telemetry->v5);
     Serial.print(",");
 //    Serial.print("Current: "); Serial.println(telemetry->current);
 }

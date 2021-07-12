@@ -58,17 +58,17 @@ void head_gps_data(){
 void print_gps_data(struct Telemetry *telemetry){
     switch (telemetry->gps_state) {
         case GPS_OK:
-            Serial.println("GPS_OK,");
+            Serial.print("GPS_OK,");
             break;
         case GPS_ERROR_DATA:
-            Serial.println("GPS_ERROR_DATA,");
+            Serial.print("GPS_ERROR_DATA,");
             break;
         case GPS_ERROR_SAT:
-            Serial.println("GPS_ERROR_SAT,");
+            Serial.print("GPS_ERROR_SAT,");
             break;
     }
 
-    console.println(telemetry->sat_count);
+    console.print(telemetry->sat_count);
     console.print(",");
 
     console.print(telemetry->year);
@@ -81,23 +81,23 @@ void print_gps_data(struct Telemetry *telemetry){
     console.print(",");
     console.print(int(telemetry->minute));
     console.print(",");
-    console.println(int(telemetry->second));
+    console.print(int(telemetry->second));
     console.print(",");
 
 //    console.print("Latitude: ");
-    console.println(telemetry->latitude, 6);
+    console.print(telemetry->latitude, 6);
     console.print(",");
 
 //    console.print("Longitude: ");
-    console.println(telemetry->longitude, 6);
+    console.print(telemetry->longitude, 6);
     console.print(",");
 
 
 //    console.print("Altitude (m): ");
-    console.println(telemetry->altitude, 3);
+    console.print(telemetry->altitude, 3);
     console.print(",");
 
 //    console.print("Speed: ");
-    console.println(telemetry->speed, 3);
+    console.print(telemetry->speed, 3);
     console.print(",");
 }
